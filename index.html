@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lights Out</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js" defer></script>
+    <link rel="manifest" href="manifest.json">
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+            .then(() => console.log('Service Worker Registered'))
+            .catch(error => console.error('Service Worker Registration failed:', error));
+        }
+    </script>
+</head>
+<body>
+    <h1>Lights Out</h1>
+    <div id="game-container" style="display: flex; justify-content: center;">
+        <canvas id="game-canvas"></canvas>
+    </div>
+    <div id="controls" style="display: flex; flex-direction: column; align-items: center;">
+        <label for="difficulty-slider">难度：
+            <span id="difficulty-label">中等</span>
+        </label>
+        <input type="range" id="difficulty-slider" class="slider" min="1" max="5" value="3">
+    </div>
+    <button id="start-button">开始</button><br>
+    <button id="rules-button">游戏规则</button><br><br>
+    <div id="move-counter">步数 = 0</div>
+    <div id="message"></div>
+
+    <div id="rules-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>游戏规则</h2>
+            <p>在 Lights Out 游戏中，点击一个格子会切换它和它相邻格子的状态（亮/灭）。目标是将所有的灯熄灭。</p>
+            <ul style="text-align: left;">
+                <li>点击一个格子来切换它和它相邻格子的状态</li>
+                <li>所有灯都熄灭时获胜</li>
+								<li>所用的步数越少越好</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById("rules-modal");
+        const btn = document.getElementById("rules-button");
+        const span = document.getElementsByClassName("close-button")[0];
+
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
